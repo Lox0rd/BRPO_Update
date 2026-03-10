@@ -19,12 +19,12 @@ int main() {
 
     FILE* fp = fopen(filename, "r");
     if (!fp) {
-        printf("Ошибка чтения файла\n");
+        printf("Ошибка чтения файла1\n");
         return 1;
     }
 
     if (fgets(CORRECT_LOGIN, MAX_LEN, fp) == NULL) {
-        printf("Ошибка чтения файла\n");
+        printf("Ошибка чтения файла2\n");
         fclose(fp);
         return 1;
     }
@@ -32,7 +32,7 @@ int main() {
     CORRECT_LOGIN[strcspn(CORRECT_LOGIN, "\n")] = '\0';
 
     if (fgets(CORRECT_PASSWORD, MAX_LEN, fp) == NULL) {
-        printf("Ошибка чтения файла\n");
+        printf("Ошибка чтения файла3\n");
         fclose(fp);
         return 1;
     }
