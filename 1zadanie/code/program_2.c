@@ -1,7 +1,7 @@
 #include <stdio.h>
 //#include <Windows.h>
 
-int main() {
+int dvachisla() {
     //SetConsoleCP(1251);
     //SetConsoleOutputCP(1251);
 
