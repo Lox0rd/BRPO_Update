@@ -2,6 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#define file "./file.txt"
+
+
+void read_and_write_result(char roman1[], char roman2[], const char *result) {
+    // Читаем из файла
+    FILE *f = fopen("./file.txt", "r");
+    fscanf(f, "%99s", roman1);
+    fscanf(f, "%99s", roman2);
+    fclose(f);
+
+    // Записываем результат обратно в тот же файл
+    f = fopen("./file.txt", "w");
+    fprintf(f, "%s\n", result);
+    fclose(f);
+}
+
 
 int isRoman(char chislo[]) {
     char *valid_el = "IVXCDLM";
@@ -177,38 +193,41 @@ char *roman_units_diff(const char *str1, const char *str2) {
 int romantoint() {
     char roman1[100], roman2[100];
     char *units1, *units2, *diff_units, *result_roman;
+    char output_file[200] = "";
+    read_and_write_result(roman1, roman2, "");
 
-    printf("Введите первое римское число: ");
-    if (scanf("%99s", roman1) != 1 || isRoman(roman1)) {
+    //Проверка ввода
+    if (isRoman(roman1)) {
         printf("Ошибка ввода первого числа.\n");
         return 1;
     }
-
-    printf("Введите второе римское число: ");
-    if (scanf("%99s", roman2) != 1 || isRoman(roman2)) {
-        printf("Ошибка ввода Второго числа.\n");
+    if (isRoman(roman2)) {
+        printf("Ошибка ввода второго числа.\n");
         return 1;
     }
 
     //Преобразуем римские числа в строки из 'I'
     units1 = roman_to_units(roman1);
     units2 = roman_to_units(roman2);
-    
+
     //Вычисляем разницу длин строк
     diff_units = roman_units_diff(units1, units2);
 
     //Если разница равна 0, результат — пустая строка
     if (strlen(diff_units) == 0) {
-        printf("Результат:\n");
-    }
-    else {
+        strcpy(output_file, "");
+        printf("Результат: (пустая строка)\n");
+    } else {
         //Преобразуем разницу обратно в римскую запись
         result_roman = units_to_roman(diff_units);
+        strcpy(output_file, result_roman);
         printf("Результат: %s\n", result_roman);
         free(result_roman);  //Освобождаем память
     }
 
-    //Освобождаем всю выделенную память
+    // Записываем результат обратно в исходный файл
+    read_and_write_result(roman1, roman2, output_file);
+
     free(units1);
     free(units2);
     free(diff_units);
